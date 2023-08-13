@@ -10,18 +10,28 @@ Sending Weekly /Daily CSV Reports  FROM  Hudi Datalake to Customers via Email us
         "source": [
             {
                 "table_name": "orders",
-                "hudi_path": "s3://XXXX/silver/table_name=orders",
+                "hudi_path": "s3://XXX/silver/table_name=orders",
+                "type": "FULL"  # FULL | INC
+            },
+            {
+                "table_name": "customers",
+                "hudi_path": "s3://XXXX/silver/table_name=customers",
                 "type": "FULL"  # FULL | INC
             }
         ],
         "transform": {
-            "query": "SELECT * FROM orders where priority='URGENT';" # business Query
+            "query": """SELECT o.*,
+            c.name AS customer_name,
+        c.email AS customer_email
+            FROM orders AS o
+            JOIN customers AS c ON o.customer_id = c.customer_id
+    WHERE o.priority = 'URGENT' """
         },
         "email": {
-            "sender_email": "XX",
-            "recipient_email": "XX",
+            "sender_email": "sXXXX",
+            "recipient_email": "XXXXom",
             "subject": "Download Link for Data",
-            "report_bucket": "XX",
+            "report_bucket": "hudXXX5",
             "file_expires_in": 86400
         }
 
