@@ -48,7 +48,7 @@ global BUCKET_NAME
 DYNAMODB_LOCK_TABLE_NAME = 'hudi-lock-table'
 curr_session = boto3.session.Session()
 curr_region = curr_session.region_name
-BUCKET_NAME = "hudi-learn-demo-1995"
+BUCKET_NAME = "XXX"
 
 
 # ---------------------------------------------------------
@@ -472,18 +472,28 @@ def main():
         "source": [
             {
                 "table_name": "orders",
-                "hudi_path": "s3://XXXX/silver/table_name=orders",
+                "hudi_path": "s3://XXX/silver/table_name=orders",
+                "type": "FULL"  # FULL | INC
+            },
+            {
+                "table_name": "customers",
+                "hudi_path": "s3://XXXX/silver/table_name=customers",
                 "type": "FULL"  # FULL | INC
             }
         ],
         "transform": {
-            "query": "SELECT * FROM orders where priority='URGENT';"
+            "query": """SELECT o.*,
+            c.name AS customer_name,
+        c.email AS customer_email
+            FROM orders AS o
+            JOIN customers AS c ON o.customer_id = c.customer_id
+    WHERE o.priority = 'URGENT' """
         },
         "email": {
-            "sender_email": "XX",
-            "recipient_email": "XX",
+            "sender_email": "shahsoumil519@gmail.com",
+            "recipient_email": "shahsoumil519@gmail.com",
             "subject": "Download Link for Data",
-            "report_bucket": "XX",
+            "report_bucket": "hudi-learn-demo-1995",
             "file_expires_in": 86400
         }
 
