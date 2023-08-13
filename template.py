@@ -490,8 +490,8 @@ def main():
     WHERE o.priority = 'URGENT' """
         },
         "email": {
-            "sender_email": "shahsoumil519@gmail.com",
-            "recipient_email": "shahsoumil519@gmail.com",
+            "sender_email": "XXXXX",
+            "recipient_email": "XXXXXm",
             "subject": "Download Link for Data",
             "report_bucket": "hudi-learn-demo-1995",
             "file_expires_in": 86400
